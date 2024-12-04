@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "esolangs"
+version = "0.1.0"
+description = ""
+authors = ["Peter Hagelund <peterhagelund@mac.com>"]
+readme = "README.md"
+packages = [
+    { include = "befunge" },
+    { include = "brainfuck" },
+    { include = "deadfish" },
+    { include = "malbolge" },
+    { include = "main.py" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

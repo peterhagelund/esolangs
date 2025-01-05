@@ -27,21 +27,21 @@ class Interpreter:
         a = 0
         for c in code:
             match c:
-                case "i":
+                case 'i':
                     a += 1
-                case "d":
+                case 'd':
                     a -= 1
-                case "s":
+                case 's':
                     a *= a
-                case "o":
+                case 'o':
                     print(a, file=self.output)
-                case "h":
+                case 'h':
                     break
                 case " " | "\t" | "\n" | "\r":
                     pass
                 case _:
                     if self.strict:
-                        raise ValueError(f"character '{c}' is not valid")
+                        raise ValueError(f'character "{c}" is not valid')
                     pass
             if a < 0 or a == 256:
                 a = 0

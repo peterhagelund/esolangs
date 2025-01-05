@@ -1,8 +1,8 @@
 from io import TextIOWrapper
 from sys import stdin, stdout
 
-XLAT_1 = "+b(29e*j1VMEKLyC})8&m#~W>qxdRp0wkrUo[D7,XTcA\"lI.v%{gJh4G\\-=O@5`_3i<?Z';FNQuY]szf$!BS/|t:Pn6^Ha"
-XLAT_2 = "5z]&gqtyfr$(we4{WP)H-Zn,[%\\3dL+Q;>U!pJS72FhOA1CB6v^=I_0/8|jsb9m<.TVac`uY*MK'X~xDl}REokN:#?G\"i@"
+XLAT_1 = '+b(29e*j1VMEKLyC})8&m#~W>qxdRp0wkrUo[D7,XTcA\"lI.v%{gJh4G\\-=O@5`_3i<?Z\';FNQuY]szf$!BS/|t:Pn6^Ha'
+XLAT_2 = '5z]&gqtyfr$(we4{WP)H-Zn,[%\\3dL+Q;>U!pJS72FhOA1CB6v^=I_0/8|jsb9m<.TVac`uY*MK\'X~xDl}REokN:#?G\"i@'
 MEM_SIZE = 3**10
 OPERATIONS = "ji*p</vo"
 P9 = [1, 9, 81, 729, 6561]
@@ -47,9 +47,9 @@ class Interpreter:
             if 32 < x < 127:
                 operation = XLAT_1[(x - 33 + mem_ptr) % 94]
                 if operation not in OPERATIONS:
-                    raise ValueError(f"invalid operation '{c}'/'{operation}' at position {mem_ptr}")
+                    raise ValueError(f'invalid operation "{c}"/"{operation}" at position {mem_ptr}')
             if mem_ptr == MEM_SIZE:
-                raise ValueError("code too large")
+                raise ValueError('code too large')
             mem[mem_ptr] = x
             mem_ptr += 1
         while mem_ptr < MEM_SIZE:
@@ -70,25 +70,25 @@ class Interpreter:
             if 32 < mem[c] < 127:
                 operation = XLAT_1[(mem[c] - 33 + c) % 94]
                 match operation:
-                    case "j":
+                    case 'j':
                         d = mem[d]
-                    case "i":
+                    case 'i':
                         c = mem[d]
-                    case "*":
+                    case '*':
                         a = int(mem[d] / 3) + mem[d] % 3 * 19683
                         mem[d] = a
-                    case "p":
+                    case 'p':
                         a = self.crazy(a, mem[d])
                         mem[d] = a
-                    case "<":
+                    case '<':
                         print(chr(a & 0xFF), end="", file=self.output)
-                    case "/":
+                    case '/':
                         c = self.input.read(1)
                         if len(c) == 0:
                             a = MEM_SIZE
                         else:
                             a = ord(c)
-                    case "v":
+                    case 'v':
                         return
                 mem[c] = ord(XLAT_2[mem[c] - 33])
             c = (c + 1) % MEM_SIZE

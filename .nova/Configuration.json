@@ -1,0 +1,11 @@
+{
+  "editor.default_syntax" : "python",
+  "python.analysis.typeCheckingMode" : "strict",
+  "python.formatOnSave" : true,
+  "python.formatterArgs" : [
+    "--line-length=200"
+  ],
+  "python.interpreter" : "\/Users\/peter\/Documents\/VSCode\/Python\/EsoLangs\/.venv\/bin\/python",
+  "python.organizeOnSave" : true,
+  "python.pythonPath" : "\/Users\/peter\/Documents\/VSCode\/Python\/EsoLangs\/.venv\/bin\/python"
+}

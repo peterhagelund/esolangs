@@ -2,6 +2,7 @@ from enum import Enum
 from io import TextIOWrapper
 from random import randint, seed
 from sys import stdin, stdout
+from typing import TextIO
 
 
 class Stack:
@@ -61,7 +62,7 @@ class Interpreter:
     :type input: IOBase
     """
 
-    def __init__(self, input: TextIOWrapper = stdin, output: TextIOWrapper = stdout):
+    def __init__(self, input: TextIO = stdin, output: TextIO = stdout):
         super().__init__()
         self.input = input
         self.output = output
@@ -80,12 +81,12 @@ class Interpreter:
         lines = code.splitlines()
         width = max(*[len(line) for line in lines])
         if width > 80:
-            raise ValueError('code is too wide')
+            raise ValueError("code is too wide")
         height = len(lines)
         if height > 25:
-            raise ValueError('code is too tall')
+            raise ValueError("code is too tall")
         if width == 0 or height == 0:
-            raise ValueError('code is empty')
+            raise ValueError("code is empty")
         grid = [bytearray([32 for _ in range(width)]) for _ in lines]
         y = 0
         for line in lines:
@@ -121,48 +122,48 @@ class Interpreter:
                         case digit if instruction in "01234567890":
                             value = int(digit)
                             stack.push(value)
-                        case '+':
+                        case "+":
                             a = stack.pop()
                             b = stack.pop()
                             stack.push(a + b)
-                        case '-':
+                        case "-":
                             a = stack.pop()
                             b = stack.pop()
                             stack.push(b - a)
-                        case '*':
+                        case "*":
                             a = stack.pop()
                             b = stack.pop()
                             stack.push(a * b)
-                        case '/':
+                        case "/":
                             a = stack.pop()
                             b = stack.pop()
                             stack.push(int(b / a))
-                        case '%':
+                        case "%":
                             a = stack.pop()
                             b = stack.pop()
                             stack.push(b % a)
-                        case '!':
+                        case "!":
                             value = stack.pop()
                             if value == 0:
                                 stack.push(1)
                             else:
                                 stack.push(0)
-                        case '`':
+                        case "`":
                             a = stack.pop()
                             b = stack.pop()
                             if b > a:
                                 stack.push(1)
                             else:
                                 stack.push(0)
-                        case '>':
+                        case ">":
                             direction = Direction.RIGHT
-                        case '<':
+                        case "<":
                             direction = Direction.LEFT
-                        case '^':
+                        case "^":
                             direction = Direction.UP
-                        case 'v':
+                        case "v":
                             direction = Direction.DOWN
-                        case '?':
+                        case "?":
                             d = randint(0, 3)
                             match d:
                                 case 0:
@@ -173,63 +174,76 @@ class Interpreter:
                                     direction = Direction.UP
                                 case 3:
                                     direction = Direction.DOWN
-                        case '_':
+                                case _:
+                                    raise ValueError("Invalid direction")
+                        case "_":
                             value = stack.pop()
                             if value == 0:
                                 direction = Direction.RIGHT
                             else:
                                 direction = Direction.LEFT
-                        case '|':
+                        case "|":
                             value = stack.pop()
                             if value == 0:
                                 direction = Direction.DOWN
                             else:
                                 direction = Direction.UP
-                        case ':':
+                        case ":":
                             stack.dup()
-                        case '\\':
+                        case "\\":
                             stack.swap()
-                        case '$':
+                        case "$":
                             stack.pop()
-                        case '.':
+                        case ".":
                             value = stack.pop()
                             print(f"{value}", end=" ", file=self.output)
-                        case ',':
+                        case ",":
                             value = stack.pop()
                             print(chr(value), end="", file=self.output)
-                        case '#':
+                        case "#":
                             step = 2
-                        case 'p':
+                        case "p":
                             y = stack.pop()
                             x = stack.pop()
                             value = stack.pop()
                             grid[y][x] = value & 0xFF
-                        case 'g':
+                        case "g":
                             y = stack.pop()
                             x = stack.pop()
                             stack.push(int(grid[y][x]))
-                        case '&':
-                            number: int = None
+                        case "&":
+                            number: int | None = None
                             while number is None:
-                                print('enter a number:', end=' ', file=self.output)
+                                print("enter a number:", end=" ", file=self.output)
                                 s = str(self.input.readline()).strip()
                                 try:
                                     number = int(s)
-                                except:
-                                    print(f'"{s}" is not a valid number', file=self.output)
+                                except ValueError:
+                                    print(
+                                        f'"{s}" is not a valid number', file=self.output
+                                    )
                             stack.push(number)
-                        case '~':
-                            value: int = None
+                        case "~":
+                            value: int | None = None
                             while value is None:
-                                print('enter a single character:', end=' ', file=self.output)
+                                print(
+                                    "enter a single character:",
+                                    end=" ",
+                                    file=self.output,
+                                )
                                 s = str(self.input.readline()).strip()
                                 if len(s) == 1:
                                     value = ord(s)
                                 else:
-                                    print(f'"{s}" is not a single character', file=self.output)
+                                    print(
+                                        f'"{s}" is not a single character',
+                                        file=self.output,
+                                    )
                             stack.push(value)
-                        case '@':
+                        case "@":
                             return
+                        case _:
+                            pass
             match direction:
                 case Direction.RIGHT:
                     x += step

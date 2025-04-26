@@ -1,5 +1,6 @@
 from io import TextIOWrapper
 from sys import stdout
+from typing import TextIO
 
 
 class Interpreter:
@@ -9,7 +10,7 @@ class Interpreter:
     :type strict: bool
     """
 
-    def __init__(self, output: TextIOWrapper = stdout, strict: bool = False):
+    def __init__(self, output: TextIO = stdout, strict: bool = False):
         super().__init__()
         self.output = output
         self.strict = strict
@@ -27,15 +28,15 @@ class Interpreter:
         a = 0
         for c in code:
             match c:
-                case 'i':
+                case "i":
                     a += 1
-                case 'd':
+                case "d":
                     a -= 1
-                case 's':
+                case "s":
                     a *= a
-                case 'o':
+                case "o":
                     print(a, file=self.output)
-                case 'h':
+                case "h":
                     break
                 case " " | "\t" | "\n" | "\r":
                     pass

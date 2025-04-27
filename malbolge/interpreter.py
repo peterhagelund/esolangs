@@ -7,7 +7,7 @@ XLAT_2 = "5z]&gqtyfr$(we4{WP)H-Zn,[%\\3dL+Q;>U!pJS72FhOA1CB6v^=I_0/8|jsb9m<.TVac
 MEM_SIZE = 3**10
 OPERATIONS = "ji*p</vo"
 P9 = [1, 9, 81, 729, 6561]
-O = [
+OUTPUTS = [
     [4, 3, 3, 1, 0, 0, 1, 0, 0],
     [4, 3, 5, 1, 0, 2, 1, 0, 2],
     [5, 5, 4, 2, 2, 1, 2, 2, 1],
@@ -48,7 +48,7 @@ class Interpreter:
             if 32 < x < 127:
                 operation = XLAT_1[(x - 33 + mem_ptr) % 94]
                 if operation not in OPERATIONS:
-                    raise ValueError(f'invalid operation "{c}"/"{operation}" at position {mem_ptr}')
+                    raise ValueError(f"invalid operation '{c}'/'{operation}' at position {mem_ptr}")
             if mem_ptr == MEM_SIZE:
                 raise ValueError("code too large")
             mem[mem_ptr] = x
@@ -109,5 +109,5 @@ class Interpreter:
         """
         output = 0
         for i in range(len(P9)):
-            output += O[int(input_2 / P9[i]) % 9][int(input_1 / P9[i]) % 9] * P9[i]
+            output += OUTPUTS[int(input_2 / P9[i]) % 9][int(input_1 / P9[i]) % 9] * P9[i]
         return output

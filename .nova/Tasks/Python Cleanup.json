@@ -1,0 +1,7 @@
+{
+  "extension" : {
+    "identifier" : "net.danwatson.Python",
+    "name" : "Python"
+  },
+  "extensionTemplate" : "cleanup"
+}

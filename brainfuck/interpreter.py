@@ -10,9 +10,7 @@ class Interpreter:
     :type size: int
     """
 
-    def __init__(
-        self, input: TextIO = stdin, output: TextIO = stdout, size: int = 30000
-    ):
+    def __init__(self, input: TextIO = stdin, output: TextIO = stdout, size: int = 30000):
         super().__init__()
         self.input = input
         self.output = output
@@ -39,7 +37,7 @@ class Interpreter:
                     stack_ptr += 1
                 case "]":
                     if stack_ptr == 0:
-                        raise ValueError(f'unmatched "]" at position {code_ptr}')
+                        raise ValueError(f"unmatched ']' at position {code_ptr}")
                     stack_ptr -= 1
                     targets[code_ptr] = stack[stack_ptr]
                     targets[stack[stack_ptr]] = code_ptr
@@ -47,7 +45,7 @@ class Interpreter:
                     pass
         if stack_ptr > 0:
             stack_ptr -= 1
-            raise ValueError(f'unmatched "[" at position {stack[stack_ptr]}')
+            raise ValueError(f"unmatched '[' at position {stack[stack_ptr]}")
         data = bytearray(self._size)
         data_ptr = 0
         code_ptr = 0

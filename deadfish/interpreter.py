@@ -42,7 +42,7 @@ class Interpreter:
                     pass
                 case _:
                     if self.strict:
-                        raise ValueError(f'character "{c}" is not valid')
+                        raise ValueError(f"character '{c}' is not valid")
                     pass
             if a < 0 or a == 256:
                 a = 0
